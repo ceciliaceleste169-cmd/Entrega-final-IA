@@ -11,20 +11,16 @@
 A continuación, se presentan las capturas de pantalla que demuestran el correcto funcionamiento del ecosistema automatizado de extremo a extremo:
 
 ### 1. Vista General del Flujo en n8n
-Muestra la arquitectura completa con sus dos caminos (Clasificación e Ingesta / Validación Humana y Despacho).
-![Flujo Completo](./capturas-evidencia/01-flujo-completo.png)
+![Flujo Completo](./capturas-evidencia01-flujo-completo.png.png)
 
 ### 2. Configuración del Nodo de IA (Prompt Engineering)
-Evidencia de las instrucciones y variables dinámicas utilizadas para categorizar los leads en VIP/Regular.
-![Nodo IA](./capturas-evidencia/02-nodo-ia-prompt.png)
+![Nodo IA](./capturas-evidencia02-nodo-ia-prompt.png.png)
 
 ### 3. Mecanismo Human-in-the-Loop (Alerta Recibida)
-Captura del correo de alerta interna enviado al operador para frenar el "efecto metralleta" y esperar aprobación.
-![Alerta Humana](./capturas-evidencia/03-alerta-humana-recibida.png)
+![Alerta Humana](./capturas-evidencia03-alerta-humana-recibida.png.png)
 
 ### 4. Persistencia de Datos y Mapeo de Hilos (Thread ID)
-Evidencia de la planilla de Google Sheets con el `thread_id` guardado con éxito tras el envío de la propuesta final.
-![Persistencia Sheets](./capturas-evidencia/04-sheets-thread-id-guardado.png)
+![Persistencia Sheets](./capturas-evidencia04-hojas-hilo-id-guardado.png.png)
 
 ---
 
