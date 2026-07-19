@@ -20,8 +20,7 @@ A continuación, se presentan las capturas de pantalla que demuestran el correct
 ![Alerta Humana](./capturas-evidencia03-alerta-humana-recibida.png.png)
 
 ### 4. Persistencia de Datos y Mapeo de Hilos (Thread ID)
-![Persistencia Sheets](./capturas-evidencia04-hojas-hilo-id-guardado.png.png)
-
+![Persistencia Sheets](./capturas-evidencia04-hojas-hilo-id-guardado.png)
 
 ## 🛠️ Tecnologías Utilizadas
 * **n8n:** Orquestador central del flujo y control de estados.
