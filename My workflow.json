@@ -1,0 +1,702 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            },
+            {
+              "mode": "everyMinute"
+            },
+            {}
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA",
+          "mode": "list",
+          "cachedResultName": "Clasificación de Leads VIP para Servicios/Consultoría B2B",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1132041317,
+          "mode": "list",
+          "cachedResultName": "datos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit#gid=1132041317"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        0
+      ],
+      "id": "42ef56ad-2053-4e81-bd2a-0fd0170279e6",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "gGzaJgvcDLzy39ml",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "43803cb3-0cc4-4c9d-a6a9-2488d555a89d",
+              "leftValue": "={{ $json.estado }}",
+              "rightValue": "Pendiente",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        0
+      ],
+      "id": "da5dd49c-832d-46b4-a512-5009c8b36ef3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "1e0a38ca-19a9-4031-98e8-36f34b898034",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2TeEE58xFxIHgoNF",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Analiza el siguiente Lead para clasificar si es VIP o Estándar para nuestros servicios de consultoría.\n\nNombre: {{ $('Google Sheets Trigger').item.json.nombre_contacto }}\nEmpresa: {{ $('Google Sheets Trigger').item.json.empresa }}\nPresupuesto: {{ $('Google Sheets Trigger').item.json.presupuesto_estimado }} USD\nMensaje: {{ $('Google Sheets Trigger').item.json.mensaje_o_necesidad }}\n\nREGLAS DE NEGOCIO:\n- Un lead es VIP si el presupuesto_estimado es mayor o igual a 2000 USD, o si el mensaje demuestra alta urgencia de una corporación importante.\n- De lo contrario, es Estándar.\n\nResponde ESTRICTAMENTE en formato JSON plano, sin bloques de código markdown (sin ```json), con la siguiente estructura:\n{\n  \"categoria\": \"VIP\" o \"Estándar\",\n  \"razon\": \"Explicación corta de una oración de por qué se tomó la decisión.\"\n}"
+            },
+            {}
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "maxOutputTokens": 500,
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        -96
+      ],
+      "id": "f579d823-b5d9-4650-9c77-adc0c19311c4",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2TeEE58xFxIHgoNF",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA",
+          "mode": "list",
+          "cachedResultName": "Clasificación de Leads VIP para Servicios/Consultoría B2B",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1132041317,
+          "mode": "list",
+          "cachedResultName": "datos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit#gid=1132041317"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Google Sheets Trigger').item.json.id }}",
+            "ia_categoria": "={{ JSON.parse($('Message a model').item.json.content.parts[0].text).categoria }}",
+            "ia_razon": "={{ JSON.parse($('Message a model').item.json.content.parts[0].text).razon }}",
+            "estado": "En Revisión Humana"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fecha_registro",
+              "displayName": "fecha_registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nombre_contacto",
+              "displayName": "nombre_contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "empresa",
+              "displayName": "empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "presupuesto_estimado",
+              "displayName": "presupuesto_estimado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mensaje_o_necesidad",
+              "displayName": "mensaje_o_necesidad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ia_categoria",
+              "displayName": "ia_categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ia_razon",
+              "displayName": "ia_razon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thread_id",
+              "displayName": "thread_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        -112
+      ],
+      "id": "d7ecd1ff-10dd-45b4-9925-1a755e7daca2",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GyI0p2ciwSF6YXom",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ceciliaceleste169@gmail.com",
+        "subject": "📢 [Validación Requerida] Nuevo Lead Clasificado",
+        "emailType": "text",
+        "message": "=Hola,\n\nLa Inteligencia Artificial ha procesado un nuevo lead en la planilla y requiere tu validación humana para evitar el \"efecto metralleta\".\n\n📋 Datos del Lead:\n• Nombre: {{ $('Google Sheets Trigger').item.json.nombre_contacto }}\n• Empresa: {{ $('Google Sheets Trigger').item.json.empresa }}\n• Presupuesto: USD {{ $('Google Sheets Trigger').item.json.presupuesto_estimado }}\n\n🤖 Clasificación de la IA:\n• Categoría asignada: {{ JSON.parse($('Message a model').item.json.content.parts[0].text).categoria }}\n• Razón: {{ JSON.parse($('Message a model').item.json.content.parts[0].text).razon }}\n\n📍 Acción requerida:\nPor favor, ingresa a tu Google Sheets. Si estás de acuerdo con el criterio, cambia manualmente la columna 'estado' de \"En Revisión Humana\" a \"Aprobado por Humano\" para que el ecosistema proceda con el contacto final.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        -112
+      ],
+      "id": "2260990f-837c-4ca3-91e2-8faa29629535",
+      "name": "Send a message",
+      "webhookId": "43695af2-2c44-4baa-9d55-1078982b563d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "q8ln2KNbn789XWNL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA",
+          "mode": "list",
+          "cachedResultName": "Clasificación de Leads VIP para Servicios/Consultoría B2B",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1132041317,
+          "mode": "list",
+          "cachedResultName": "datos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit#gid=1132041317"
+        },
+        "event": "rowUpdate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        176
+      ],
+      "id": "d2c5ab54-f1c6-44ff-af32-02ea09738f50",
+      "name": "Google Sheets Trigger1",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "gGzaJgvcDLzy39ml",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c4f52f0e-dd19-44bc-9ada-67b2e256bb5b",
+              "leftValue": "={{ $json.estado }}",
+              "rightValue": "Aprobado por humano",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -144,
+        176
+      ],
+      "id": "a51dedc1-9acb-4ef8-bb56-b48833866c17",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "=Propuesta Comercial Automatizada - {{ $json.empresa }}",
+        "message": "=Hola {{ $json.nombre_contacto }},\n\nEs un placer saludarte. Hemos recibido tu solicitud para trabajar junto a {{ $json.empresa }} en la automatización de tus procesos.\n\nNuestro sistema de IA ha evaluado tus requerimientos de facturación y atención al cliente, clasificando tu caso con prioridad corporativa debido a la urgencia que nos mencionas. \n\nUn asesor de nuestro equipo estratégico se estará comunicando contigo en las próximas horas para coordinar la sesión de consultoría sobre el presupuesto estimado de USD {{ $json.presupuesto_estimado }}.\n\nAtentamente,\nEl Equipo de Automatización IA",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        64,
+        80
+      ],
+      "id": "d86dc94b-025b-465b-93c3-f6f21b23eeae",
+      "name": "Send a message1",
+      "webhookId": "1bfe2936-2488-4253-b9da-7bbfa897b5cc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "q8ln2KNbn789XWNL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA",
+          "mode": "list",
+          "cachedResultName": "Clasificación de Leads VIP para Servicios/Consultoría B2B",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1132041317,
+          "mode": "list",
+          "cachedResultName": "datos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit#gid=1132041317"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Google Sheets Trigger1').item.json.id }}",
+            "thread_id": "={{ $json.threadId }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fecha_registro",
+              "displayName": "fecha_registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nombre_contacto",
+              "displayName": "nombre_contacto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "empresa",
+              "displayName": "empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "presupuesto_estimado",
+              "displayName": "presupuesto_estimado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "mensaje_o_necesidad",
+              "displayName": "mensaje_o_necesidad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ia_categoria",
+              "displayName": "ia_categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ia_razon",
+              "displayName": "ia_razon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thread_id",
+              "displayName": "thread_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        80
+      ],
+      "id": "f9127371-1745-4432-bdbc-09d4c4e61b3a",
+      "name": "Update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GyI0p2ciwSF6YXom",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "40a6ac93-b34c-46d2-b666-c6c9e0a7a35c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fd7fd91a795c055f0bb7de78e4765f8963d9275cb0cfe51bf361a578404a1d08"
+  },
+  "nodeGroups": [],
+  "id": "xVrZalGoPrOXWIsR",
+  "tags": []
+}
