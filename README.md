@@ -2,7 +2,7 @@
 
 ## 🚀 Enlaces Obligatorios de la Entrega
 * **Base de Datos (Google Sheets):** (https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=sharing)
-* **Lógica del Flujo (.json):** El archivo técnico de n8n se encuentra adjunto en la raíz de este repositorio como `flujo_clasificacion_leads.json`.
+* **Lógica del Flujo (.json):** El archivo técnico de n8n se encuentra adjunto en la raíz de este repositorio como `My workflow.json`.
 * **Diagrama de Arquitectura (PDF):** El documento explicativo formal se encuentra adjunto como `Diagrama_y_Especificacion_de_Arquitectura.pdf`.
 
 ---
