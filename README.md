@@ -1,8 +1,7 @@
 # Trabajo Final: Sistema Inteligente de Clasificación de Leads con IA y Control Humano
 
 ## 🚀 Enlaces Obligatorios de la Entrega
-* **Base de Datos (Google Sheets):** [👉 HAZ CLIC AQUÍ PARA VER LA PLANILLA EN MODO LECTURA]([TU_LINK_DE_GOOGLE_SHEETS_AQUÍ](https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=sharing)
-* (Asegúrate de que cualquier persona con el enlace pueda leerlo)*
+* **Base de Datos (Google Sheets):** (https://docs.google.com/spreadsheets/d/1GGndAsEUmITKCl9RcslcSXbUNQf_gsu5w2DpGy4OlCA/edit?usp=sharing)
 * **Lógica del Flujo (.json):** El archivo técnico de n8n se encuentra adjunto en la raíz de este repositorio como `flujo_clasificacion_leads.json`.
 * **Diagrama de Arquitectura (PDF):** El documento explicativo formal se encuentra adjunto como `Diagrama_y_Especificacion_de_Arquitectura.pdf`.
 
