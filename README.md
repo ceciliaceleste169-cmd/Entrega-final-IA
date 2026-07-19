@@ -21,7 +21,6 @@ A continuación, se presentan las capturas de pantalla que demuestran el correct
 
 ### 4. Persistencia de Datos y Mapeo de Hilos (Thread ID)
 ![Persistencia Sheets](./capturas-evidencia04-hojas-hilo-id-guardado.png.png)
-
 ---
 
 ## 🛠️ Tecnologías Utilizadas
